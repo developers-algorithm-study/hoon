@@ -1,34 +1,30 @@
 #include <stdio.h>
 
-int pivo(int num, int* tmp)
-{
-	int result;
-	if (num <= 1)
-		return tmp[0];
+int countZero[41];
+int countOne[41];
 
-	else if (num == 2)
-		return tmp[1];
-
-	else {
-		pivo(num - 1, tmp);
-		result = tmp[0] + tmp[1];
-		tmp[0] = tmp[1];
-		tmp[1] = result;
-	}
-	return result;
+void dp(){
+    countZero[0] = 1;
+    countOne[1] = 1;
+    
+    for(int i=2; i<=40; i++){
+        countZero[i] = countZero[i-1] + countZero[i-2];
+        countOne[i] = countOne[i-1] + countOne[i-2];
+    }
 }
 
 int main()
 {
-	int tmp[2] = { 0,1 };
-	int num;
+	int t, n;
 
-	scanf("%d", &num);
+	scanf("%d", &t);
+	dp();
 
-	if (num < 0 || num - 1 >= 20)
-	    return 1;
-
-	printf("%d", pivo(num + 1, tmp));
+	for(int i = 0; i < t; i++)
+	{
+		scanf("%d", &n);
+		printf("%d %d\n", countZero[n], countOne[n]);
+	}
 
 	return 0;
 }
